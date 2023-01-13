@@ -5,6 +5,7 @@
 DECLARE @folder_path_candidate VARCHAR(100) = 'D:\ExportFiles\Candidate\'
 DECLARE @folder_path_candidate_list VARCHAR(100)
 DECLARE @i BIGINT
+DECLARE @ApplicantId INT
 
 IF OBJECT_ID('tempdb..#TEMP_LIST_APPLICANT', 'U') IS NOT NULL
     DROP TABLE #TEMP_LIST_APPLICANT
@@ -47,7 +48,10 @@ BEGIN TRY
 				+ Cast(applicantid AS NVARCHAR(5))
 											 FROM   #temp_list_applicant
 											 WHERE  id = @i)
-
+				SET @ApplicantId =  (SELECT
+				Cast(applicantid AS NVARCHAR(5))
+											 FROM   #temp_list_applicant
+											 WHERE  id = @i)
 				--CREATE candidate folder structure
 				EXEC master..Xp_create_subdir
 				@folder_path_candidate_list
@@ -55,7 +59,12 @@ BEGIN TRY
 				PRINT 'Folder Generated at - '
 				    + @folder_path_candidate_list
 
+				--INSERT to Table Log
+				INSERT INTO NeedleStack.Migration_Log_Candidate (LogDateTime, ObjectId, CandidateFolderPath)
+				VALUES (GETDATE(), @ApplicantId, @folder_path_candidate_list)
+
 				SET @folder_path_candidate_list = ''
+				SET @ApplicantId = 0
 				SET @i -= 1
 			 END 	    
     COMMIT TRAN
@@ -66,7 +75,11 @@ BEGIN CATCH
     DECLARE @LogType NVARCHAR(15) = 'Candidate'
     IF @@TRANCOUNT > 0
         ROLLBACK TRAN
-    --INSERT INTO NeedleStack_Migration_Log(LogDateTime, LogType, ErrorMessage) VALUES (@LogType, @DateTime, @ErrorMessage)
+
+    --INSERT to Table Log
+    INSERT INTO NeedleStack.Migration_Log (LogType, LogDateTime, ErrorMessage) 
+    VALUES (@LogType, @LogDateTime, @ErrorMessage)
+
     RAISERROR('Error occurred during transaction', 16, 1)
 END CATCH
 
