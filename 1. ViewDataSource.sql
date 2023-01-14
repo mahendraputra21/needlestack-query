@@ -3,9 +3,20 @@
 ---- APPLICANT AND CLIENT
 -------------------------------------------------------------------------
 
-CREATE OR ALTER VIEW V_ApplicantDataSource
+CREATE OR ALTER VIEW needlestack.V_ApplicantDataSource
 AS
-			
+	
+	SELECT 
+	Id = ROW_NUMBER() OVER( ORDER BY ApplicantId ASC ),
+	ApplicantId,
+	SourceType,
+	FileId,
+	FolderPath,
+	AbbreviatedText,
+	[FileName],
+	FileExtension
+	FROM 
+	(
 		SELECT  
 				ApplicantId = a.ApplicantId,
 				SourceType = 'CV',
@@ -27,7 +38,7 @@ AS
 						ON p.PersonID = a.ApplicantId
 					  
 
-UNION ALL
+	UNION ALL
 
 		SELECT DISTINCT 
 				ApplicantId = a.ObjectId,
@@ -47,6 +58,6 @@ UNION ALL
 				INNER JOIN dbo.Person p
 						ON p.PersonID = a.ObjectId
 				WHERE a.OBJECTID IS NOT NULL
-					
+	) X			
 
 
