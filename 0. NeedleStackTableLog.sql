@@ -1,24 +1,25 @@
 -------------------------------------------------------------------------
----- QUERY PREREQUISITE FOR LOG & RESULT
- -------------------------------------------------------------------------
+---- QUERY PREREQUISITE 
+---- TemplateTypes, ExportLogs Applicant & Client
+-------------------------------------------------------------------------
 
  BEGIN TRY
     BEGIN TRAN
 
-		   IF NOT EXISTS (SELECT * FROM sys.schemas WHERE name = 'NeedleStack')
+		   IF NOT EXISTS (SELECT * FROM sys.schemas WHERE name = 'Needlestack')
 			 BEGIN
-				EXEC sp_executesql N'CREATE SCHEMA NeedleStack'
+				EXEC sp_executesql N'CREATE SCHEMA Needlestack'
 			 END
 
-			 IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'TemplateTypeMapping' AND schema_id = SCHEMA_ID('NeedleStack'))
+			 IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'TemplateTypes' AND schema_id = SCHEMA_ID('Needlestack'))
 			 BEGIN
-				CREATE TABLE NeedleStack.TemplateTypeMapping (
+				CREATE TABLE Needlestack.TemplateTypes (
 				    TemplateTypeId INT PRIMARY KEY NOT NULL,
 				    TemplateTypeName NVARCHAR(300) NOT NULL,
-				    AbbreviatedText NVARCHAR(100)
+				    AbbreviatedText NVARCHAR(100) NULL
 				)
 
-				INSERT INTO NeedleStack.TemplateTypeMapping (TemplateTypeId, TemplateTypeName, AbbreviatedText) 
+				INSERT INTO Needlestack.TemplateTypes (TemplateTypeId, TemplateTypeName, AbbreviatedText) 
 				VALUES 
 				(3, 'Standard Templates', 'Standard'),
 				(15, 'Job Description Templates', 'JD'),
@@ -64,39 +65,39 @@
 				(84, 'Payroll New Starters', 'Payroll'),
 				(85, 'Client Forms - Internal', 'Client_Internal'),
 				(86, 'Client Perm Placement Confirmation', 'Client_Perm_Conf')
-
-
 			 END
 
-			IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'Migration_Log' AND schema_id = SCHEMA_ID('NeedleStack'))
+			IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'Export_Error_Logs' AND schema_id = SCHEMA_ID('Needlestack'))
 			 BEGIN
-				CREATE TABLE NeedleStack.Migration_Log (
-				    Id INT IDENTITY(1,1) PRIMARY KEY,
+				CREATE TABLE Needlestack.Export_Error_Logs (
+				    LogId INT IDENTITY(1,1) PRIMARY KEY,
 				    LogType NVARCHAR(15) NOT NULL,
-				    LogDateTime DATETIME NOT NULL,
-				    ErrorMessage TEXT NULL
+				    LogDate DATETIME NOT NULL,
+				    ErrorMessage TEXT NOT NULL
 				)
 			 END
 
-			 IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'Migration_Log_Candidate' AND schema_id = SCHEMA_ID('NeedleStack'))
+			 IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'Export_Applicant_Data_Logs' AND schema_id = SCHEMA_ID('Needlestack'))
 			 BEGIN
-			    CREATE TABLE NeedleStack.Migration_Log_Candidate (
-				   Id INT IDENTITY(1,1) PRIMARY KEY,   
-				   LogDateTime DATETIME NOT NULL,
-				   ObjectId INT NULL,
-				   CandidateFolderPath TEXT NULL,
-				   CandidateFilePath TEXT NULL,
+			    CREATE TABLE Needlestack.Export_Applicant_Data_Logs (
+				   LogId INT IDENTITY(1,1) PRIMARY KEY,   
+				   LogDate DATETIME NOT NULL,
+				   ApplicantId INT NOT NULL,
+				   FileId INT NOT NULL,
+				   FolderPath TEXT NOT NULL,
+				   [FileName] TEXT NOT NULL,
 				)
 			 END
 
-			 IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'Migration_Log_Client' AND schema_id = SCHEMA_ID('NeedleStack'))
+			 IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'Export_Client_Data_Logs' AND schema_id = SCHEMA_ID('Needlestack'))
 			 BEGIN
-				CREATE TABLE NeedleStack.Migration_Log_Client (
-				   Id INT IDENTITY(1,1) PRIMARY KEY,
-				   LogDateTime DATETIME NOT NULL,
-				   ClientId INT NULL,
-				   ClientFolderPath TEXT NULL,
-				   ClientFilePath TEXT NULL,
+				CREATE TABLE Needlestack.Export_Client_Data_Logs (
+				   LogId INT IDENTITY(1,1) PRIMARY KEY,
+				   LogDate DATETIME NOT NULL,
+				   ClientId INT NOT NULL,
+				   FileId INT NOT NULL,
+				   FolderPath TEXT NOT NULL,
+				   [FileName] TEXT NOT NULL,
 				)
 			 END
     COMMIT TRAN
@@ -104,12 +105,12 @@ END TRY
 BEGIN CATCH
     DECLARE @ErrorMessage NVARCHAR(MAX) = ERROR_MESSAGE()
     DECLARE @LogDateTime DATETIME = GETDATE()
-    DECLARE @LogType NVARCHAR(15) = 'LogTable'
+    DECLARE @LogType NVARCHAR(15) = 'InitTable'
     IF @@TRANCOUNT > 0
         ROLLBACK TRAN
 
      --INSERT to Table Log
-    INSERT INTO NeedleStack.Migration_Log (LogType, LogDateTime, ErrorMessage) 
+    INSERT INTO Needlestack.Export_Error_Logs (LogType, LogDate, ErrorMessage) 
     VALUES (@LogType, @LogDateTime, @ErrorMessage)
 
     RAISERROR('Error occurred during transaction', 16, 1)
