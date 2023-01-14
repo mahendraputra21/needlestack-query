@@ -100,6 +100,7 @@
 				   [FileName] TEXT NOT NULL,
 				)
 			 END
+
     COMMIT TRAN
 END TRY
 BEGIN CATCH
