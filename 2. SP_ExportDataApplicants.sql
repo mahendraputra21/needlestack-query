@@ -2,66 +2,62 @@
 ---- QUERY FOR GENERATE CANDIDATE STRUCTURE FOLDER
 ---- BASED ON CV AND TEMPLATES
  -------------------------------------------------------------------------
-DECLARE @folder VARCHAR(100) = 'E:\ExportFiles\Candidate\'
-DECLARE @folder_path VARCHAR(100)
-DECLARE @i BIGINT
-DECLARE @ApplicantId INT
-DECLARE @FileId INT
-DECLARE @FileName NVARCHAR(200)
+ CREATE OR ALTER PROCEDURE needlestack.SP_ExportDataApplicants
+ AS
 
-IF OBJECT_ID('tempdb..#TEMP_LIST_APPLICANT', 'U') IS NOT NULL
-    DROP TABLE #TEMP_LIST_APPLICANT
+	DECLARE @i BIGINT
+	DECLARE @ApplicantId INT
+	DECLARE @SourceType NVARCHAR(2)
+	DECLARE @TemplateTypeId INT
+	DECLARE @FileId INT
+	DECLARE @folder_path VARCHAR(100)
+	DECLARE @FileName NVARCHAR(200)
+	DECLARE @FileExtension NVARCHAR(10)
+	DECLARE @fPath NVARCHAR(MAX)
+	DECLARE @init int
+	DECLARE @FileContent VARBINARY(MAX)
+
 
 BEGIN TRY
     BEGIN TRAN
-		  --GET LIST APPLICANTID FROM TABLE CV AND Templates
-		  SELECT 
-		  DISTINCT
-		  Row_number()
-		  OVER(
-		  ORDER BY APPLICANTID) AS Id,
-		  APPLICANTID
-		  INTO #temp_list_applicant
-		  FROM (
-				SELECT DISTINCT 
-					   a.applicantid AS APPLICANTID
-				FROM   dbo.cv (nolock) a
-					   INNER JOIN dbo.cvcontents (nolock) b
-							 ON a.cvid = b.cvid
-
-				UNION ALL
-
-				SELECT DISTINCT 
-					   a.ObjectId AS APPLICANTID
-				FROM Templates(nolock) a
-					   INNER JOIN TemplateDocument (nolock) b
-							 ON a.TemplateId = B.TemplateId
-					   WHERE a.OBJECTID IS NOT NULL
-		  ) X
-
-
+		 
 		  SELECT @i = Count(1)
-		  FROM   #temp_list_applicant
+		  FROM   needlestack.V_ApplicantDataSource
 
 		  WHILE @i >= 1
 			 BEGIN
 				
 				SELECT
-					@folder_path = @folder + Cast(applicantid AS NVARCHAR(5)),
-					@ApplicantId = applicantid,
-					@FileId=0,
-					@FileName =''
-				FROM   #temp_list_applicant
-				WHERE  id = @i
+					@ApplicantId = ApplicantId,
+					@SourceType = SourceType,
+					@TemplateTypeId = TemplateTypeId,
+					@folder_path = FolderPath,
+					@FileId=FileId,
+					@FileName =[FileName],
+					@FileExtension = FileExtension,
+					@fPath = FolderPath + '\' + [FileName] + FileExtension,
+					@FileContent = FileContent
+				FROM   needlestack.V_ApplicantDataSource
+				WHERE  Id = @i
 
-				
 				--CREATE Applicant folder structure
 				EXEC master..Xp_create_subdir @folder_path
-				PRINT 'Folder Generated at - '+ @folder_path + @FileName
+				PRINT 'Folder Generated at - '+ @folder_path
+
+				--Extracting CV and templates Applicants
+				EXEC sp_OACreate 'ADODB.Stream', @init OUTPUT; -- An instance created
+				EXEC sp_OASetProperty @init, 'Type', 1;
+				EXEC sp_OAMethod @init, 'Open'; -- Calling a method
+				EXEC sp_OAMethod @init, 'Write', NULL, @FileContent; -- Calling a method
+				EXEC sp_OAMethod @init, 'SaveToFile', NULL, @fPath, 2; -- Calling a method
+				EXEC sp_OAMethod @init, 'Close'; -- Calling a method
+				EXEC sp_OADestroy @init; -- Closed the resources
+
+				print 'Document Generated at - '+  @fPath
 
 				--INSERT to Table Export Applicant Log
-				INSERT INTO Needlestack.Export_Applicant_Data_Logs (LogDate, ApplicantId, FileId, FolderPath, [FileName])
-				VALUES (GETDATE(), @ApplicantId, @FileId, @folder_path, @FileName)
+				INSERT INTO needlestack.Export_Applicant_Data_Logs (LogDate, TemplateTypeId ,ApplicantId, SourceType, FileId, FolderPath, [FileName], FileExtension)
+				VALUES (GETDATE(), @TemplateTypeId ,@ApplicantId, @SourceType ,@FileId, @folder_path, @FileName, @FileExtension)
 
 				SET @i -= 1
 
@@ -72,7 +68,7 @@ BEGIN CATCH
 
     DECLARE @ErrorMessage NVARCHAR(MAX) = ERROR_MESSAGE()
     DECLARE @LogDateTime DATETIME = GETDATE()
-    DECLARE @LogType NVARCHAR(15) = 'ExportCandidate'
+    DECLARE @LogType NVARCHAR(15) = 'SP_ExportDataApplicants'
 
     IF @@TRANCOUNT > 0
         ROLLBACK TRAN

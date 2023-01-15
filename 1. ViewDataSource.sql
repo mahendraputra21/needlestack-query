@@ -12,9 +12,10 @@ AS
 	SourceType,
 	FileId,
 	FolderPath,
-	AbbreviatedText,
+	TemplateTypeId,
 	[FileName],
-	FileExtension
+	FileExtension,
+	FileContent
 	FROM 
 	(
 		SELECT  
@@ -22,7 +23,7 @@ AS
 				SourceType = 'CV',
 				FileId = a.CVId,
 				FolderPath= 'E:\ExportFiles\Candidate\' + Cast(a.ApplicantId AS NVARCHAR(10)),
-				AbbreviatedText = NULL,
+				TemplateTypeId = NULL,
 				[FileName] = CASE WHEN a.Publish='Y' THEN 'CV' +' '+ p.PersonName + ' ' + p.Surname + ' (Formated)'
 							ELSE 
 								'CV' +''+ 
@@ -30,7 +31,8 @@ AS
 								+ p.PersonName + ' ' + p.Surname 
 										
 							END,
-				b.FileExtension					
+				b.FileExtension,
+				FileContent = b.CV
 		FROM   dbo.cv a
 				INNER JOIN dbo.cvcontents b
 						ON a.cvid = b.cvid
@@ -45,11 +47,12 @@ AS
 				SourceType = 'T',
 				FileId = a.TemplateID,
 				FolderPath = 'E:\ExportFiles\Candidate\' + CAST(a.ObjectId AS NVARCHAR(10)),
-				AbbreviatedText = tt.AbbreviatedText,
+				TemplateTypeId = a.TemplateTypeId,
 				[FileName] = ISNULL(tt.AbbreviatedText, ' ') + ' ' + 
 							p.PersonName + ' ' + p.Surname + ' ' + 
 							LEFT(a.TemplateName, LEN(a.TemplateName) - LEN(REVERSE(LEFT(REVERSE(a.TemplateName), CHARINDEX('.', REVERSE(a.TemplateName)))))),
-				FileExtension = b.FileExtension
+				FileExtension = b.FileExtension,
+				FileContent = b.Document
 		FROM dbo.Templates a
 				INNER JOIN dbo.TemplateDocument b
 						ON a.TemplateId = B.TemplateId
