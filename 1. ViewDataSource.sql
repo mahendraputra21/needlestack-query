@@ -22,7 +22,7 @@ AS
 				ApplicantId = a.ApplicantId,
 				SourceType = 'CV',
 				FileId = a.CVId,
-				FolderPath= 'E:\ExportFiles\Candidate\' + Cast(a.ApplicantId AS NVARCHAR(10)),
+				FolderPath= 'D:\ExportFiles\Candidate\' + Cast(a.ApplicantId AS NVARCHAR(10)),
 				TemplateTypeId = NULL,
 				[FileName] = CASE WHEN a.Publish='Y' THEN 'CV' +' '+ p.PersonName + ' ' + p.Surname + ' (Formated)'
 							ELSE 
@@ -46,7 +46,7 @@ AS
 				ApplicantId = a.ObjectId,
 				SourceType = 'T',
 				FileId = a.TemplateID,
-				FolderPath = 'E:\ExportFiles\Candidate\' + CAST(a.ObjectId AS NVARCHAR(10)),
+				FolderPath = 'D:\ExportFiles\Candidate\' + CAST(a.ObjectId AS NVARCHAR(10)),
 				TemplateTypeId = a.TemplateTypeId,
 				[FileName] = ISNULL(tt.AbbreviatedText, ' ') + ' ' + 
 							p.PersonName + ' ' + p.Surname + ' ' + 

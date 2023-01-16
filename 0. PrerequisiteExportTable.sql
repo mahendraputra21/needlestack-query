@@ -1,6 +1,7 @@
 -------------------------------------------------------------------------
 ---- QUERY PREREQUISITE 
----- TemplateTypes, ExportLogs Applicant & Client
+---- TemplateTypes, Export_Error_Logs , Export_Applicant_Data_Logs 
+---- Export_Client_Data_Logs
 -------------------------------------------------------------------------
 
  BEGIN TRY
