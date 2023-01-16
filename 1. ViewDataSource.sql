@@ -48,7 +48,8 @@ AS
 				FileId = a.TemplateID,
 				FolderPath = 'D:\ExportFiles\Candidate\' + CAST(a.ObjectId AS NVARCHAR(10)),
 				TemplateTypeId = a.TemplateTypeId,
-				[FileName] = ISNULL(tt.AbbreviatedText, ' ') + ' ' + 
+				[FileName] = ISNULL(tt.AbbreviatedText, ' ') + ' ' +
+							Cast(a.TemplateID AS NVARCHAR(10)) +' '+  -- to prevent same file name
 							p.PersonName + ' ' + p.Surname + ' ' + 
 							LEFT(a.TemplateName, LEN(a.TemplateName) - LEN(REVERSE(LEFT(REVERSE(a.TemplateName), CHARINDEX('.', REVERSE(a.TemplateName)))))),
 				FileExtension = b.FileExtension,
