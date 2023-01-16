@@ -42,16 +42,22 @@ AS
 
 	UNION ALL
 
-		SELECT DISTINCT 
+		SELECT  
 				ApplicantId = a.ObjectId,
 				SourceType = 'T',
 				FileId = a.TemplateID,
 				FolderPath = 'D:\ExportFiles\Candidate\' + CAST(a.ObjectId AS NVARCHAR(10)),
 				TemplateTypeId = a.TemplateTypeId,
-				[FileName] = ISNULL(tt.AbbreviatedText, ' ') + ' ' +
-							Cast(a.TemplateID AS NVARCHAR(10)) +' '+  -- to prevent same file name
-							p.PersonName + ' ' + p.Surname + ' ' + 
-							LEFT(a.TemplateName, LEN(a.TemplateName) - LEN(REVERSE(LEFT(REVERSE(a.TemplateName), CHARINDEX('.', REVERSE(a.TemplateName)))))),
+				[FileName] = 	CASE WHEN tt.AbbreviatedText IS NOT NULL THEN  
+							    tt.AbbreviatedText + ' ' +
+							    CAST(a.TemplateID AS NVARCHAR(10)) +' '+  -- to prevent same file name
+							    p.PersonName + ' ' + p.Surname + ' ' + 
+							    LEFT(a.TemplateName, LEN(a.TemplateName) - LEN(REVERSE(LEFT(REVERSE(a.TemplateName), CHARINDEX('.', REVERSE(a.TemplateName))))))
+							ELSE
+							    CAST(a.TemplateID AS NVARCHAR(10)) +' '+  -- to prevent same file name
+							    p.PersonName + ' ' + p.Surname + ' ' + 
+							    LEFT(a.TemplateName, LEN(a.TemplateName) - LEN(REVERSE(LEFT(REVERSE(a.TemplateName), CHARINDEX('.', REVERSE(a.TemplateName))))))
+							END,
 				FileExtension = b.FileExtension,
 				FileContent = b.Document
 		FROM dbo.Templates a
