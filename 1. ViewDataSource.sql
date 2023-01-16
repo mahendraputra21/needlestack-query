@@ -4,11 +4,7 @@
 -------------------------------------------------------------------------
 CREATE 
 OR ALTER VIEW needlestack.V_ApplicantDataSource AS 
-SELECT 
-  Id = ROW_NUMBER() OVER(
-    ORDER BY 
-      ApplicantId ASC
-  ), 
+SELECT  
   ApplicantId, 
   SourceType, 
   FileId, 
@@ -45,7 +41,7 @@ FROM
       ApplicantId = a.ObjectId,
       SourceType = 'T',
       FileId = a.TemplateID,
-      FolderPath = 'D : \ExportFiles\Candidate\' + CAST(a.ObjectId AS NVARCHAR(10)),
+      FolderPath = 'D:\ExportFiles\Candidate\' + CAST(a.ObjectId AS NVARCHAR(10)),
       TemplateTypeId = a.TemplateTypeId,
       [FileName] =   CASE WHEN tt.AbbreviatedText IS NOT NULL THEN  
               tt.AbbreviatedText + ' ' +

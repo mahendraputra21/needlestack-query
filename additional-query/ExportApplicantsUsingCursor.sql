@@ -1,13 +1,9 @@
--------------------------------------------------------------------------
----- QUERY FOR GENERATE CANDIDATE STRUCTURE FOLDER
----- BASED ON CV AND TEMPLATES
- -------------------------------------------------------------------------
 CREATE OR ALTER PROCEDURE needlestack.SP_ExportDataApplicants
 AS
 BEGIN TRY
     BEGIN TRAN
 
-        --DECLARE @ApplicantDataSourceRow CURSOR READONLY
+        DECLARE @ApplicantDataSourceRow V_ApplicantDataSource READONLY
         DECLARE @ApplicantId INT
         DECLARE @SourceType NVARCHAR(2)
         DECLARE @TemplateTypeId INT
@@ -20,23 +16,15 @@ BEGIN TRY
 
         DECLARE exportDataApplicantsCursor CURSOR FOR
         SELECT
-		  a.ApplicantId,
-		  a.SourceType,
-		  a.TemplateTypeId,
-		  a.FolderPath,
-		  a.FileId,
-		  a.[FileName],
-		  a.FileExtension,
-		  FileContent = CASE WHEN a.SourceType = 'CV' THEN c.CV
-						 WHEN a.SourceType = 'T'  THEN t.Document
-					END
-	   FROM needlestack.V_ApplicantDataSource a
-	   LEFT OUTER JOIN dbo.CVContents c 
-		  ON c.CVId = a.FileId 
-	   AND a.SourceType = 'CV'
-	   LEFT OUTER JOIN dbo.TemplateDocument t 
-		  ON t.TemplateId = a.FileId 
-	   AND a.SourceType = 'T'
+            ApplicantId,
+            SourceType,
+            TemplateTypeId,
+            FolderPath,
+            FileId,
+            FileName,
+            FileExtension,
+            FileContent
+        FROM needlestack.V_ApplicantDataSource
 
         OPEN exportDataApplicantsCursor
 
@@ -57,7 +45,7 @@ BEGIN TRY
                 PRINT 'Folder Generated at - '+ @folder_path
 
                 --Extracting CV and templates Applicants
-                SET @fPath = COALESCE(@folder_path, '') + '\' + COALESCE(@FileName, '') + COALESCE(@FileExtension, '')
+                SET @fPath = COALESCE(@folder_path, '') + COALESCE(@FileName, '') + COALESCE(@FileExtension, '')
 
                 DECLARE @init INT
                 EXEC sp_OACreate 'ADODB.Stream', @init OUTPUT
@@ -92,7 +80,8 @@ BEGIN TRY
                     FolderPath, 
                     [FileName], 
                     FileExtension
-                ) OUTPUT inserted.* INTO @insertedData
+                )
+                OUTPUT inserted.* INTO @insertedData
                 
                 SELECT 
                     GETDATE(), 
