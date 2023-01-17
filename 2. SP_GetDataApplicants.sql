@@ -9,7 +9,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 
-CREATE   PROCEDURE [NeedleStack].[SP_GetDataApplicants]
+CREATE OR ALTER PROCEDURE [NeedleStack].[SP_GetDataApplicants]
 AS
 SELECT
 a.ApplicantId,

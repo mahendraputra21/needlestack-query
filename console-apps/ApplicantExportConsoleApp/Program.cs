@@ -30,8 +30,6 @@ class Program
         }
         return fileContent;
     }
-
-
     private static byte[] GetFileContentTemplates(int fileId, SqlConnection connection, SqlTransaction transaction)
     {
         byte[] fileContent;
@@ -60,7 +58,6 @@ class Program
 
         return fileContent;
     }
-
 
     static void Main(string[] args)
     {
