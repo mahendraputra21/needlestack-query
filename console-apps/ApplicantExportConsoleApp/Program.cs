@@ -59,10 +59,10 @@ class Program
         return fileContent;
     }
 
-    static void Main(string[] args)
+    public static void Main()
     {
-        //var connectionString = "Server=.;Database=McArthur_RDBProNet;User Id=sa;Password=geekseat!;MultipleActiveResultSets=true;";
-        var connectionString = "Server=.;Database=RecruitmentInvestmentsLimitedDemo_IPR;User Id=sa;Password=geekseat!;MultipleActiveResultSets=true;";
+        var connectionString = "Server=.;Database=McArthur_RDBProNet;User Id=sa;Password=sukses489735;MultipleActiveResultSets=true;";
+        //var connectionString = "Server=.;Database=RecruitmentInvestmentsLimitedDemo_IPR;User Id=sa;Password=geekseat!;MultipleActiveResultSets=true;";
         using (var connection = new SqlConnection(connectionString))
         {
             connection.Open();
