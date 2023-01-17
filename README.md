@@ -3,6 +3,8 @@
  ## Purpose
  NET 7 Console Application to bulk export data from binary file on SQL Database to local drive
  using Stream /Memory Stream and make it doesn't use any memory in the heap.
+ 
+ ![image](https://github.com/mahendraputra21/needlestack-query/blob/main/img/Screenshot_1.png)
 
 ## How To use :
 
