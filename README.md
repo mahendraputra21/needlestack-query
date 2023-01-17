@@ -6,6 +6,9 @@
  
  ![image](https://github.com/mahendraputra21/needlestack-query/blob/main/img/Screenshot_1.png)
 
+ ![image](https://github.com/mahendraputra21/needlestack-query/blob/main/img/S2.png)
+
+
 ## How To use :
 
  0. PrerequisiteExportTable
