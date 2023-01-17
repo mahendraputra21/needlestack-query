@@ -72,7 +72,7 @@
 			 BEGIN
 				CREATE TABLE Needlestack.Export_Error_Logs (
 				    LogId INT IDENTITY(1,1) PRIMARY KEY,
-				    LogType NVARCHAR(15) NOT NULL,
+				    LogType NVARCHAR(200) NOT NULL,
 				    LogDate DATETIME NOT NULL,
 				    ErrorMessage TEXT NOT NULL
 				)
@@ -83,13 +83,13 @@
 			    CREATE TABLE Needlestack.Export_Applicant_Data_Logs (
 				   LogId INT IDENTITY(1,1) PRIMARY KEY,   
 				   LogDate DATETIME NOT NULL,
-				   TemplateTypeId INT NULL,
+				   TemplateTypeId INT NULL DEFAULT (0),
 				   ApplicantId INT NOT NULL,
 				   SourceType NVARCHAR(2) NOT NULL,
 				   FileId INT NOT NULL,
 				   FolderPath TEXT NOT NULL,
 				   [FileName] TEXT NOT NULL,
-				   FileExtension NVARCHAR(5) NOT NULL
+				   FileExtension NVARCHAR(5) NULL
 				)
 			 END
 
@@ -98,12 +98,12 @@
 				CREATE TABLE Needlestack.Export_Client_Data_Logs (
 				   LogId INT IDENTITY(1,1) PRIMARY KEY,
 				   LogDate DATETIME NOT NULL,
-				   TemplateTypeId INT NULL,
+				   TemplateTypeId INT NULL DEFAULT (0),
 				   ClientId INT NOT NULL,
 				   FileId INT NOT NULL,
 				   FolderPath TEXT NOT NULL,
 				   [FileName] TEXT NOT NULL,
-				   FileExtension NVARCHAR(5) NOT NULL
+				   FileExtension NVARCHAR(5) NULL
 				)
 			 END
 
