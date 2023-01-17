@@ -89,7 +89,7 @@
 				   FileId INT NOT NULL,
 				   FolderPath TEXT NOT NULL,
 				   [FileName] TEXT NOT NULL,
-				   FileExtension NVARCHAR(5) NULL
+				   FileExtension NVARCHAR(30) NULL
 				)
 			 END
 
@@ -103,7 +103,7 @@
 				   FileId INT NOT NULL,
 				   FolderPath TEXT NOT NULL,
 				   [FileName] TEXT NOT NULL,
-				   FileExtension NVARCHAR(5) NULL
+				   FileExtension NVARCHAR(30) NULL
 				)
 			 END
 

@@ -3,17 +3,28 @@
 class Program
 {
 
-    private static async Task<byte[]> GetFileContentCV(int fileId, SqlConnection connection, SqlTransaction transaction)
+    private static byte[] GetFileContentCV(int fileId, SqlConnection connection, SqlTransaction transaction)
     {
         byte[]? fileContent = null;
         using (var command = new SqlCommand("SELECT CV FROM dbo.CVContents WHERE CVId = @fileId", connection, transaction))
         {
             command.Parameters.AddWithValue("@fileId", fileId);
-            using (var reader = await command.ExecuteReaderAsync())
+            using (var reader = command.ExecuteReader())
             {
-                if (await reader.ReadAsync())
+                if (reader.Read())
                 {
-                    fileContent = (byte[])reader.GetValue(0);
+                    if (!reader.IsDBNull(0))
+                    {
+                        fileContent = (byte[])reader.GetValue(0);
+                    }
+                    else
+                    {
+                        fileContent = null;
+                    }
+                }
+                else
+                {
+                    fileContent = null;
                 }
             }
         }
@@ -21,17 +32,28 @@ class Program
     }
 
 
-    private static async Task<byte[]> GetFileContentTemplates(int fileId, SqlConnection connection, SqlTransaction transaction)
+    private static byte[] GetFileContentTemplates(int fileId, SqlConnection connection, SqlTransaction transaction)
     {
-        byte[]? fileContent = null;
-        using (var command = new SqlCommand("SELECT Document FROM dbo.TemplateDocument WHERE TemplateId = @fileId", connection, transaction))
+        byte[] fileContent;
+        using (var command = new SqlCommand("SELECT Document FROM dbo.TemplateDocument WHERE TemplateId = @fileId AND Document IS NOT NULL", connection, transaction))
         {
             command.Parameters.AddWithValue("@fileId", fileId);
-            using (var reader = await command.ExecuteReaderAsync())
+            using (var reader = command.ExecuteReader())
             {
-                if (await reader.ReadAsync())
+                if (reader.Read())
                 {
-                    fileContent = (byte[])reader.GetValue(0);
+                    if (!reader.IsDBNull(0))
+                    {
+                        fileContent = (byte[])reader.GetValue(0);
+                    }
+                    else
+                    {
+                        fileContent = null;
+                    }
+                }
+                else
+                {
+                    fileContent = null;
                 }
             }
         }
@@ -39,12 +61,14 @@ class Program
         return fileContent;
     }
 
-    static async Task Main(string[] args)
+
+    static void Main(string[] args)
     {
-        var connectionString = "Server=.;Database=McArthur_RDBProNet;User Id=sa;Password=geekseat!;MultipleActiveResultSets=true;";
+        //var connectionString = "Server=.;Database=McArthur_RDBProNet;User Id=sa;Password=geekseat!;MultipleActiveResultSets=true;";
+        var connectionString = "Server=.;Database=RecruitmentInvestmentsLimitedDemo_IPR;User Id=sa;Password=geekseat!;MultipleActiveResultSets=true;";
         using (var connection = new SqlConnection(connectionString))
         {
-            await connection.OpenAsync();
+            connection.Open();
             using (var transaction = connection.BeginTransaction())
             {
                 try
@@ -57,10 +81,10 @@ class Program
                     {
                         command.CommandType = System.Data.CommandType.StoredProcedure;
 
-                        using (var reader = await command.ExecuteReaderAsync())
+                        using (var reader = command.ExecuteReader())
                         {
                             
-                            while (await reader.ReadAsync())
+                            while (reader.Read())
                             {
                                 var applicantId = reader.GetInt32(0);
                                 var sourceType = reader.GetString(1);
@@ -69,23 +93,28 @@ class Program
                                 var fileId = reader?.GetInt32(4);
                                 var fileName = reader?.GetString(5);
                                 var fileExtension = reader?.GetString(6);
-                                var fileContent = reader.GetString(1) == "CV" ? await GetFileContentCV((int)fileId, connection, transaction) : await GetFileContentTemplates((int)fileId, connection, transaction);
+                                var fileContent = reader.GetString(1) == "CV" ? GetFileContentCV((int)fileId, connection, transaction) : GetFileContentTemplates((int)fileId, connection, transaction);
 
                                 // Create folder if it does not exist
                                 Directory.CreateDirectory(folderPath);
 
+                                Console.WriteLine("File ID - " + fileId.ToString());
                                 Console.WriteLine("Folder Generated at - " + folderPath);
 
                                 // Construct file path
-                                var filePath = Path.Combine(folderPath + "\\", fileName + fileExtension);
+                                var filePath = Path.Combine(folderPath + "\\", fileName.Replace("/"," ") + fileExtension);
 
                                 // Write file to disk
                                 using (var fileStream = new FileStream(filePath, FileMode.Create))
-                                using (var memoryStream = new MemoryStream(fileContent))
-                                {
-                                    await memoryStream.CopyToAsync(fileStream);
-                                }
 
+                                if (fileContent!= null)
+                                {
+                                    using (var memoryStream = new MemoryStream(fileContent))
+                                    {
+                                        memoryStream.CopyTo(fileStream);
+                                    }
+                                }
+                               
                                 Console.WriteLine("Document Generated at - " + filePath);
 
                                 //reader.Close();
@@ -100,7 +129,7 @@ class Program
                                     logCommand.Parameters.AddWithValue("@folderPath", folderPath);
                                     logCommand.Parameters.AddWithValue("@fileName", fileName);
                                     logCommand.Parameters.AddWithValue("@fileExtension", fileExtension);
-                                    await logCommand.ExecuteNonQueryAsync();
+                                    logCommand.ExecuteNonQuery();
                                 }
 
                             }
