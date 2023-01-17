@@ -93,4 +93,4 @@ OR ALTER VIEW needlestack.V_ClientDataSource AS
       LEFT OUTER JOIN dbo.Objects o
             ON o.ObjectID = a.ObjectId
       WHERE a.OBJECTID IS NOT NULL
-       AND o.ObjectTypeId= (SELECT ObjectTypeId FROM ObjectTypes WHERE SystemCode='CCT')
+       AND o.ObjectTypeId= (SELECT ObjectTypeId FROM ObjectTypes WHERE SystemCode='CLNT')
