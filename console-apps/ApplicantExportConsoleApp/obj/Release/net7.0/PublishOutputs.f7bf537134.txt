@@ -1,0 +1,11 @@
+D:\source-control\needlestack-query\console-apps\ApplicantExportConsoleApp\bin\Release\net7.0\publish\ApplicantExportConsoleApp.exe
+D:\source-control\needlestack-query\console-apps\ApplicantExportConsoleApp\bin\Release\net7.0\publish\ApplicantExportConsoleApp.dll
+D:\source-control\needlestack-query\console-apps\ApplicantExportConsoleApp\bin\Release\net7.0\publish\ApplicantExportConsoleApp.deps.json
+D:\source-control\needlestack-query\console-apps\ApplicantExportConsoleApp\bin\Release\net7.0\publish\ApplicantExportConsoleApp.runtimeconfig.json
+D:\source-control\needlestack-query\console-apps\ApplicantExportConsoleApp\bin\Release\net7.0\publish\ApplicantExportConsoleApp.pdb
+D:\source-control\needlestack-query\console-apps\ApplicantExportConsoleApp\bin\Release\net7.0\publish\System.Data.SqlClient.dll
+D:\source-control\needlestack-query\console-apps\ApplicantExportConsoleApp\bin\Release\net7.0\publish\runtimes\win-arm64\native\sni.dll
+D:\source-control\needlestack-query\console-apps\ApplicantExportConsoleApp\bin\Release\net7.0\publish\runtimes\win-x64\native\sni.dll
+D:\source-control\needlestack-query\console-apps\ApplicantExportConsoleApp\bin\Release\net7.0\publish\runtimes\win-x86\native\sni.dll
+D:\source-control\needlestack-query\console-apps\ApplicantExportConsoleApp\bin\Release\net7.0\publish\runtimes\unix\lib\netcoreapp2.1\System.Data.SqlClient.dll
+D:\source-control\needlestack-query\console-apps\ApplicantExportConsoleApp\bin\Release\net7.0\publish\runtimes\win\lib\netcoreapp2.1\System.Data.SqlClient.dll

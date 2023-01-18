@@ -1,4 +1,5 @@
 ﻿using System.Data.SqlClient;
+using System.Text.RegularExpressions;
 
 class Program
 {
@@ -61,8 +62,8 @@ class Program
 
     public static void Main()
     {
-        var connectionString = "Server=.;Database=McArthur_RDBProNet;User Id=sa;Password=sukses489735;MultipleActiveResultSets=true;";
-        //var connectionString = "Server=.;Database=RecruitmentInvestmentsLimitedDemo_IPR;User Id=sa;Password=geekseat!;MultipleActiveResultSets=true;";
+        //var connectionString = "Server=.;Database=McArthur_RDBProNet;User Id=sa;Password=sukses489735;MultipleActiveResultSets=true;";
+        var connectionString = "Server=.;Database=RecruitmentInvestmentsLimitedDemo_IPR;User Id=sa;Password=geekseat!;MultipleActiveResultSets=true;";
         using (var connection = new SqlConnection(connectionString))
         {
             connection.Open();
@@ -97,9 +98,9 @@ class Program
 
                                 Console.WriteLine("File ID - " + fileId.ToString());
                                 Console.WriteLine("Folder Generated at - " + folderPath);
-
+                                
                                 // Construct file path
-                                var filePath = Path.Combine(folderPath + "\\", fileName.Replace("/"," ") + fileExtension);
+                                var filePath = Path.Combine(folderPath + "\\", Regex.Replace(fileName, "[\\/:*?\"<>|]", "") + fileExtension);
 
                                 // Write file to disk
                                 using (var fileStream = new FileStream(filePath, FileMode.Create))

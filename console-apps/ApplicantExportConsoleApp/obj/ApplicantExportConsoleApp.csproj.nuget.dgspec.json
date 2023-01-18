@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "E:\\project\\needlestack\\needlestack-query\\console-apps\\ApplicantExportConsoleApp\\ApplicantExportConsoleApp.csproj": {}
+    "D:\\source-control\\needlestack-query\\console-apps\\ApplicantExportConsoleApp\\ApplicantExportConsoleApp.csproj": {}
   },
   "projects": {
-    "E:\\project\\needlestack\\needlestack-query\\console-apps\\ApplicantExportConsoleApp\\ApplicantExportConsoleApp.csproj": {
+    "D:\\source-control\\needlestack-query\\console-apps\\ApplicantExportConsoleApp\\ApplicantExportConsoleApp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\project\\needlestack\\needlestack-query\\console-apps\\ApplicantExportConsoleApp\\ApplicantExportConsoleApp.csproj",
+        "projectUniqueName": "D:\\source-control\\needlestack-query\\console-apps\\ApplicantExportConsoleApp\\ApplicantExportConsoleApp.csproj",
         "projectName": "ApplicantExportConsoleApp",
-        "projectPath": "E:\\project\\needlestack\\needlestack-query\\console-apps\\ApplicantExportConsoleApp\\ApplicantExportConsoleApp.csproj",
-        "packagesPath": "C:\\Users\\Dewa Mahendra\\.nuget\\packages\\",
-        "outputPath": "E:\\project\\needlestack\\needlestack-query\\console-apps\\ApplicantExportConsoleApp\\obj\\",
+        "projectPath": "D:\\source-control\\needlestack-query\\console-apps\\ApplicantExportConsoleApp\\ApplicantExportConsoleApp.csproj",
+        "packagesPath": "C:\\Users\\Geeseat\\.nuget\\packages\\",
+        "outputPath": "D:\\source-control\\needlestack-query\\console-apps\\ApplicantExportConsoleApp\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Dewa Mahendra\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Geeseat\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [

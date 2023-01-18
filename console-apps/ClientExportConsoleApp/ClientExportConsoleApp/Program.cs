@@ -84,7 +84,7 @@ class Program
                             while (reader.Read())
                             {
                                 var applicantId = reader.GetInt32(0);
-                                var templateTypeId = reader.IsDBNull(1) ? 0 : reader.GetInt32(2);
+                                var templateTypeId = reader.IsDBNull(1) ? 0 : reader.GetInt32(1);
                                 var folderPath = reader?.GetString(2);
                                 var fileId = reader?.GetInt32(3);
                                 var fileName = reader?.GetString(4);

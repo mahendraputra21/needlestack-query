@@ -1,0 +1,11 @@
+D:\source-control\needlestack-query\console-apps\ClientExportConsoleApp\ClientExportConsoleApp\project-needlestackclient-console-app\ClientExportConsoleApp.exe
+D:\source-control\needlestack-query\console-apps\ClientExportConsoleApp\ClientExportConsoleApp\project-needlestackclient-console-app\ClientExportConsoleApp.dll
+D:\source-control\needlestack-query\console-apps\ClientExportConsoleApp\ClientExportConsoleApp\project-needlestackclient-console-app\ClientExportConsoleApp.deps.json
+D:\source-control\needlestack-query\console-apps\ClientExportConsoleApp\ClientExportConsoleApp\project-needlestackclient-console-app\ClientExportConsoleApp.runtimeconfig.json
+D:\source-control\needlestack-query\console-apps\ClientExportConsoleApp\ClientExportConsoleApp\project-needlestackclient-console-app\ClientExportConsoleApp.pdb
+D:\source-control\needlestack-query\console-apps\ClientExportConsoleApp\ClientExportConsoleApp\project-needlestackclient-console-app\System.Data.SqlClient.dll
+D:\source-control\needlestack-query\console-apps\ClientExportConsoleApp\ClientExportConsoleApp\project-needlestackclient-console-app\runtimes\win-arm64\native\sni.dll
+D:\source-control\needlestack-query\console-apps\ClientExportConsoleApp\ClientExportConsoleApp\project-needlestackclient-console-app\runtimes\win-x64\native\sni.dll
+D:\source-control\needlestack-query\console-apps\ClientExportConsoleApp\ClientExportConsoleApp\project-needlestackclient-console-app\runtimes\win-x86\native\sni.dll
+D:\source-control\needlestack-query\console-apps\ClientExportConsoleApp\ClientExportConsoleApp\project-needlestackclient-console-app\runtimes\unix\lib\netcoreapp2.1\System.Data.SqlClient.dll
+D:\source-control\needlestack-query\console-apps\ClientExportConsoleApp\ClientExportConsoleApp\project-needlestackclient-console-app\runtimes\win\lib\netcoreapp2.1\System.Data.SqlClient.dll
