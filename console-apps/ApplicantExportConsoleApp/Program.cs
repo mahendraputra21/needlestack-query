@@ -6,9 +6,9 @@ using System.Data.SqlClient;
 
 public class Program
 {
-    public static void Main()
+    public static void Main(string[] args)
     {
-
+        var parameter = args[0];
         var appSettings = JsonConvert.DeserializeObject<AppSettings>(File.ReadAllText(Constants.APP_SETTINGS));
         var connectionString = appSettings?.ConnectionString;
 
@@ -23,31 +23,41 @@ public class Program
 
                     Console.WriteLine("Processing Please wait....");
 
-                    using (var command = new SqlCommand(Constants.SP_GET_DATA_APPLICANTS, connection, transaction))
-                    {
-                        command.CommandType = System.Data.CommandType.StoredProcedure;
-                        ExportHelper.ProcessExtractingDataApplicants(connection, transaction, command);
-                    }
+                    var spParam = parameter == Constants.APPLICANT_PROCESS ? Constants.SP_GET_DATA_APPLICANTS : Constants.SP_GET_DATA_CLIENTS;
+
+                    if (parameter == Constants.APPLICANT_PROCESS || parameter == Constants.CLIENT_PROCESS)
+                        ExtractingDataApplicantClient(connection, transaction, spParam);
+                    else
+                        Console.WriteLine("Error processing.....!");
 
                     transaction.Commit();
 
-                    Console.WriteLine("Done Export Data Applicants....!");
+                    Console.WriteLine("Done Export Data....!");
 
                     Console.ReadKey();
                 }
                 catch (Exception ex)
                 {
                     //SET Log Error Export
-                    ExportHelper.SetExportErrorLog(connection, transaction, "EXPORT-APP", DateTime.Now, ex.Message);
+                    var logTypeParam = parameter == Constants.APPLICANT_PROCESS ? Constants.LOG_TYPE_APP: Constants.LOG_TYPE_CLNT;
+                    ExportHelper.SetExportErrorLog(connection, transaction, logTypeParam, DateTime.Now, ex.Message);
                     Console.WriteLine("An error occurred: " + ex.Message);
                     transaction.Rollback();
-                    throw;
                 }
             }
         }
 
     }
 
-    
+    #region Private Method
+    private static void ExtractingDataApplicantClient(SqlConnection connection, SqlTransaction transaction, string spParam)
+    {
+        using (var command = new SqlCommand(spParam, connection, transaction))
+        {
+            command.CommandType = System.Data.CommandType.StoredProcedure;
+            ExportHelper.ProcessExtractingData(connection, transaction, command);
+        }
+    }
+    #endregion
 
 }

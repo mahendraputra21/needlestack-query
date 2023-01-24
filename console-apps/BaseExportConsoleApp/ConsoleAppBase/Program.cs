@@ -1,9 +1,15 @@
-﻿using System.Diagnostics;
+﻿using ConsoleAppBase;
+using System.Diagnostics;
 
 class Program
 {
     static void Main(string[] args)
     {
+        if (args is null)
+        {
+            throw new ArgumentNullException(nameof(args));
+        }
+
         Console.WriteLine("Welcome to Needlestack Data CV/Stored Document Extraction...");
 
         while (true)
@@ -19,13 +25,13 @@ class Program
             {
                 // Run the Applicant Console App
                 Console.WriteLine("Run Export File Applicants...");
-                Process.Start("E:\\project\\needlestack\\needlestack-query\\console-apps\\ApplicantExportConsoleApp\\bin\\Debug\\net7.0\\ApplicantExportConsoleApp.exe");
+                Process.Start(Constants.APPLICANT_PATH, input);
             }
             else if (input == "2")
             {
                 // Code to run the Client Console App
                 Console.WriteLine("Run Export File Clients...");
-                Process.Start("E:\\project\\needlestack\\needlestack-query\\console-apps\\ClientExportConsoleApp\\ClientExportConsoleApp\\bin\\Debug\\net7.0\\ClientExportConsoleApp.exe");
+                Process.Start(Constants.APPLICANT_PATH, input);
             }
             else if (input == "3")
             {

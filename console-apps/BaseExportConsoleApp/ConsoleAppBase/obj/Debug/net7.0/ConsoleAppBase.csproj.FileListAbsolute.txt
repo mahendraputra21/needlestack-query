@@ -1,0 +1,16 @@
+D:\Project Needlestack\query-export-candidate\console-apps\BaseExportConsoleApp\ConsoleAppBase\bin\Debug\net7.0\AppSettings.json
+D:\Project Needlestack\query-export-candidate\console-apps\BaseExportConsoleApp\ConsoleAppBase\bin\Debug\net7.0\ConsoleAppBase.exe
+D:\Project Needlestack\query-export-candidate\console-apps\BaseExportConsoleApp\ConsoleAppBase\bin\Debug\net7.0\ConsoleAppBase.deps.json
+D:\Project Needlestack\query-export-candidate\console-apps\BaseExportConsoleApp\ConsoleAppBase\bin\Debug\net7.0\ConsoleAppBase.runtimeconfig.json
+D:\Project Needlestack\query-export-candidate\console-apps\BaseExportConsoleApp\ConsoleAppBase\bin\Debug\net7.0\ConsoleAppBase.dll
+D:\Project Needlestack\query-export-candidate\console-apps\BaseExportConsoleApp\ConsoleAppBase\bin\Debug\net7.0\ConsoleAppBase.pdb
+D:\Project Needlestack\query-export-candidate\console-apps\BaseExportConsoleApp\ConsoleAppBase\obj\Debug\net7.0\ConsoleAppBase.csproj.AssemblyReference.cache
+D:\Project Needlestack\query-export-candidate\console-apps\BaseExportConsoleApp\ConsoleAppBase\obj\Debug\net7.0\ConsoleAppBase.GeneratedMSBuildEditorConfig.editorconfig
+D:\Project Needlestack\query-export-candidate\console-apps\BaseExportConsoleApp\ConsoleAppBase\obj\Debug\net7.0\ConsoleAppBase.AssemblyInfoInputs.cache
+D:\Project Needlestack\query-export-candidate\console-apps\BaseExportConsoleApp\ConsoleAppBase\obj\Debug\net7.0\ConsoleAppBase.AssemblyInfo.cs
+D:\Project Needlestack\query-export-candidate\console-apps\BaseExportConsoleApp\ConsoleAppBase\obj\Debug\net7.0\ConsoleAppBase.csproj.CoreCompileInputs.cache
+D:\Project Needlestack\query-export-candidate\console-apps\BaseExportConsoleApp\ConsoleAppBase\obj\Debug\net7.0\ConsoleAppBase.dll
+D:\Project Needlestack\query-export-candidate\console-apps\BaseExportConsoleApp\ConsoleAppBase\obj\Debug\net7.0\refint\ConsoleAppBase.dll
+D:\Project Needlestack\query-export-candidate\console-apps\BaseExportConsoleApp\ConsoleAppBase\obj\Debug\net7.0\ConsoleAppBase.pdb
+D:\Project Needlestack\query-export-candidate\console-apps\BaseExportConsoleApp\ConsoleAppBase\obj\Debug\net7.0\ConsoleAppBase.genruntimeconfig.cache
+D:\Project Needlestack\query-export-candidate\console-apps\BaseExportConsoleApp\ConsoleAppBase\obj\Debug\net7.0\ref\ConsoleAppBase.dll

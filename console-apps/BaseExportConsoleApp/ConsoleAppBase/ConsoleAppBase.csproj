@@ -8,7 +8,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Program Exe\" />
+    <Compile Remove="Program Exe\**" />
+    <EmbeddedResource Remove="Program Exe\**" />
+    <None Remove="Program Exe\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="AppSettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

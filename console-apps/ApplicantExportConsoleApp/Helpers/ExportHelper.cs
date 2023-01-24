@@ -54,6 +54,23 @@ namespace ApplicantExportConsoleApp.Helpers
                 logCommand.ExecuteNonQuery();
             }
         }
+
+        public static void SetExportClientLog(SqlConnection connection, SqlTransaction transaction, int? clientId, int templateTypeId, string? folderPath, int? fileId, string? fileName, string? fileExtension) 
+        {
+            using (var logCommand = new SqlCommand("INSERT INTO needlestack.Export_Client_Data_Logs (LogDate, TemplateTypeId, ClientId, FileId, FolderPath, [FileName], FileExtension) " +
+                "VALUES (GETDATE(), @templateTypeId, @clientId, @fileId, @folderPath, @fileName, @fileExtension)", connection, transaction))
+            {
+                logCommand.Parameters.AddWithValue("@templateTypeId", templateTypeId);
+                logCommand.Parameters.AddWithValue("@ClientId", clientId);
+                logCommand.Parameters.AddWithValue("@fileId", fileId);
+                logCommand.Parameters.AddWithValue("@folderPath", folderPath);
+                logCommand.Parameters.AddWithValue("@fileName", fileName);
+                logCommand.Parameters.AddWithValue("@fileExtension", fileExtension);
+                logCommand.ExecuteNonQuery();
+            }
+        }
+
+
         public static void SetExportErrorLog(SqlConnection connection, SqlTransaction transaction, string logType, DateTime logDate, string errorMessage) 
         {
             using (var logCommand = new SqlCommand("INSERT INTO Needlestack.Export_Error_Logs " +
@@ -66,7 +83,7 @@ namespace ApplicantExportConsoleApp.Helpers
                 logCommand.ExecuteNonQuery();
             }
         }
-        public static void ProcessExtractingDataApplicants(SqlConnection connection, SqlTransaction transaction, SqlCommand command)
+        public static void ProcessExtractingData(SqlConnection connection, SqlTransaction transaction, SqlCommand command)
         {
             using (var reader = command.ExecuteReader())
             {
@@ -79,8 +96,8 @@ namespace ApplicantExportConsoleApp.Helpers
                     var fileId = reader?.GetInt32(4);
                     var fileName = reader?.GetString(5);
                     var fileExtension = reader?.GetString(6);
-                    var fileContent = reader?.GetString(1) == "CV" ? ExportHelper.GetFileContentCV((int)fileId, connection, transaction)
-                        : ExportHelper.GetFileContentTemplates((int)fileId, connection, transaction);
+                    var fileContent = reader?.GetString(1) == "CV" ? GetFileContentCV((int)fileId, connection, transaction)
+                        : GetFileContentTemplates((int)fileId, connection, transaction);
 
                     // Create folder if it does not exist
                     Directory.CreateDirectory(folderPath);
@@ -107,7 +124,7 @@ namespace ApplicantExportConsoleApp.Helpers
                     //reader.Close();
 
                     // Log export in the database
-                    ExportHelper.SetExportApplicantLog(connection, transaction, applicantId, sourceType,
+                    SetExportApplicantLog(connection, transaction, applicantId, sourceType,
                         templateTypeId, folderPath, fileId, fileName, fileExtension);
 
                 }
