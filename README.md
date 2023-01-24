@@ -19,6 +19,4 @@
 
  3. SP_GetDataClients
  
- 4. Run ApplicantExportConsoleApp
- 
- 5. Run ClientExportConsoleApp
+ 4. ConsoleAppBase.exe 
